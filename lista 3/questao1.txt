@@ -1,0 +1,45 @@
+#include <stdio.h>
+#include <conio.h>
+
+int primo(int num){
+	int count = 0;
+	for(int i = 2; i<=num; i++) {
+		if(num % i == 0) {
+			count++;
+		}
+	}
+	
+	return count;
+}
+
+int qtdPrimos() {
+	int qtd, num;
+	int count = 0;
+	
+	printf("Digite o numero de primos que deseja digitar: \n");
+	scanf("%d", &qtd);
+	
+	
+	int i = 0;
+	while(i<qtd) {
+		do {
+			printf("Digite o numero: \n");
+			scanf("%d", &num);
+		} while(num<0);
+		
+		
+		if(primo(num) == 1) {
+			count++;
+		}
+		i++;
+	}
+	return count;
+}
+
+
+
+int main() {
+	printf("Quantidade de primos: %d \n", qtdPrimos());
+	return 0;
+	getch();
+}

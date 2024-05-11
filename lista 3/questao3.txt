@@ -1,0 +1,46 @@
+#include <stdio.h>
+
+int repeticao(int num, int num2) {
+	int aux = num, count = 0, i = 0, tamanho = 0;
+	
+	while(aux > 0) {
+		aux = aux/10;
+		tamanho++;
+	}
+	
+	aux = num;
+	int prev[tamanho];
+	
+	while(i < tamanho) {
+		prev[i] = aux % 10;
+		aux = aux/10;
+		if(i != 0) {
+			if(prev[i] == prev[i-1]) {
+				count++;
+			}
+		}
+		i++;
+	}
+	
+	return count;
+	
+}
+
+int main() {
+	int num, num2;
+	do {
+		printf("Digite um numero: \n");
+		scanf("%d", &num);
+	} while(num<0);
+	
+	do {
+		printf("Digite outro numero: \n");
+		scanf("%d", &num2);
+	} while(num2>9 || num2 < -9);
+	
+	printf("%d", repeticao(num, num2));
+	
+	return 0;
+	
+	
+}
