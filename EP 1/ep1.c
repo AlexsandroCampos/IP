@@ -1,12 +1,66 @@
 #include <stdio.h>
 
-int v3[40], v4[40], v5[40], tamanho = 0;
+int v3[40], v4[40] , tamanho = 0; 
+
+void negativeFillArrays() {
+    for (int i = 0; i < 40; i++)
+    {
+        v3[i] = -1;
+        v4[i] = -1;
+    }
+} 
+
+void exibirVetores(int v1[20], int v2[20]) {
+    printf("vetor 1: \n");
+    for (int i = 0; i < 20; i++)
+    {
+        if(v1[i] >= 0) {
+            printf("%d \n", v1[i]);
+        }
+        
+    } 
+     
+    printf("vetor 2: \n");
+    for (int i = 0; i < 20; i++)
+    {
+        if(v2[i] >= 0) {
+            printf("%d \n", v2[i]);
+        }
+    }
+
+    printf("vetor 3: \n");
+    for (int i = 0; i < 40; i++)
+    {
+        if(v3[i] >= 0) {
+            printf("%d \n", v3[i]);
+        }
+    }
+
+    printf("vetor 4: \n");
+    for (int i = 0; i < 40; i++)
+    {
+        if(v4[i] >= 0) {
+            printf("%d \n", v4[i]);
+        }
+    }
+
+}
+
+int semRepeticao(int pos, int valor, int vetor[]) {
+  for (int i = 0; i < pos; i++) {
+    if (vetor[i] == valor) {
+      return 0;
+    }
+  }
+
+  return 1;
+}
 
 void merge(int v1[20], int v2[20]) {
     int j = 0;
     for (int i = 0; i < 20; i++)
     {
-        if(v1[i] >= 0)  {
+        if(v1[i] >= 0 && semRepeticao(j, v1[i], v3))  {
             v3[j] = v1[i];
             j++;
         }
@@ -14,7 +68,7 @@ void merge(int v1[20], int v2[20]) {
 
     for (int i = 0; i < 20; i++)
     {
-        if(v2[i] >= 0) {
+        if(v2[i] >= 0 && semRepeticao(j, v2[i], v3)) {
             v3[j] = v2[i];
             j++; 
         }
@@ -25,22 +79,6 @@ void merge(int v1[20], int v2[20]) {
         v3[j] = -1;
         j++;
     }
-
-    int n = 0;
-    for (int i = 0; i < 39; i++)
-    {
-       for (int k = i + 1; k < 40; k++)
-       {
-            if (v3[i] == v3[k] && v3[i] >= 0)
-            {
-                v5[n] = v3[i];
-                n++;
-                v3[k] = -1;
-            }
-       }
-    }
-
-    tamanho = n;
     
     int aux;
     for (int i = 0; i < 39; i++)
@@ -55,19 +93,23 @@ void merge(int v1[20], int v2[20]) {
             }
        }
     }
+}
 
+void criarV4(int v1[20], int v2[20]) {
     int m = 0;
     for (int i = 0; i < 20; i++)
     {
         for (int k = 0; k < 20; k++)
         {
-            if (v1[i] == v2[k] && v1[i] >= 0)
+            if (v1[i] == v2[k] && v1[i] >= 0 && semRepeticao(i, v1[i], v1) && semRepeticao(k, v2[k], v2))
             {
                 v4[m] = v1[i];
                 m++;
             } 
         } 
     }
+
+    tamanho = m;
 
     while (m < 40)
     {
@@ -79,11 +121,14 @@ void merge(int v1[20], int v2[20]) {
 int main() {
     int v1[20], v2[20];
     int i = 0, num;
+    
+    negativeFillArrays(); 
 
     printf("Vetor 1:\n");
     do
     {
         printf("Digite um numero: \n");
+
         scanf("%d", &num);
         v1[i] = num;
         i++;
@@ -118,6 +163,9 @@ int main() {
        
     } while (i < 20);
 
+    printf("Apos insercao: \n");
+    exibirVetores(v1, v2);
+
     int aux;
     for (int j = 0; j < 19; j++)
     {
@@ -144,47 +192,27 @@ int main() {
             }
        }
     }
+
+    printf("Apos a ordenacao: \n");
+    exibirVetores(v1, v2);
     
     merge(v1, v2);
 
-    printf("vetor 1: \n");
-    for (int i = 0; i < 20; i++)
-    {
-        if(v1[i] >= 0) {
-            printf("%d \n", v1[i]);
-        }
-        
-    }
+    printf("Apos merge: \n");
+    exibirVetores(v1, v2);
 
-    printf("vetor 2: \n");
-    for (int i = 0; i < 20; i++)
-    {
-        if(v2[i] >= 0) {
-            printf("%d \n", v2[i]);
-        }
-    }
+    criarV4(v1, v2);
 
-    printf("vetor 3: \n");
-    for (int i = 0; i < 40; i++)
-    {
-        if(v3[i] >= 0) {
-            printf("%d \n", v3[i]);
-        }
-    }
+    printf("Apos criar quarto vetor: \n");
+    exibirVetores(v1, v2);
 
-    printf("vetor 4: \n");
+    printf("Quantidade de repeticoes nos vetores iniciais: %d \n", tamanho);
+    printf("Valores repetidos: \n");
     for (int i = 0; i < 40; i++)
     {
         if(v4[i] >= 0) {
             printf("%d \n", v4[i]);
         }
-    }
-
-    printf("Quantidade de repeticoes: %d \n", tamanho);
-    printf("valores repetidos: \n");
-    for (int i = 0; i < tamanho; i++)
-    {
-        printf("%d \n", v5[i]);
     }
 
     return 0;
